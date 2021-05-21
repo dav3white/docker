@@ -1,0 +1,150 @@
+---
+version: "3.5"
+services:
+  motioneye:
+    image: ccrisan/motioneye:master-amd64  # Change to ccrisan/motioneye:master-armhf for ARM chips (Pi etc.)
+    container_name: motioneye
+    ports:
+      - "8085:8085"
+      - "8765:8765"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /srv/dev-disk-by-label-dataC/appdata/motion-eye:/etc/motioneye
+      - /srv/dev-disk-by-label-CCTV:/var/lib/motioneye
+  plex:
+    image: ghcr.io/linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=100
+      - VERSION=docker
+      - PLEX_CLAIM= #optional
+    volumes:
+      - /srv/dev-disk-by-label-dataC/appdata/plex:/config
+      - /srv/dev-disk-by-label-dataC/plex/videos/tv:/tv
+      - /srv/dev-disk-by-label-dataC/plex/videos/movies:/movies
+      - /srv/dev-disk-by-label-dataC/plex/music/Nicola/Music:/music
+      - /srv/dev-disk-by-label-dataC/plex:/plex
+    restart: unless-stopped
+  homeassistant:
+    image: homeassistant/home-assistant:stable
+    container_name: homeassistant
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=100
+    volumes:
+      - /srv/dev-disk-by-label-dataC/appdata/ha:/config
+      - /etc/localtime:/etc/localtime
+    restart: unless-stopped
+  transmission:
+    image: ghcr.io/linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=Europe/London
+    volumes:
+      - /srv/dev-disk-by-label-dataC/appdata/transmission:/config
+      - /srv/dev-disk-by-label-dataC/plex/downloads:/downloads
+      - /srv/dev-disk-by-label-dataC/plex/videos:/watch
+      - /srv/dev-disk-by-label-dataC/plex:/plex
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
+  radarr:
+    image: ghcr.io/linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=Europe/London
+    volumes:
+      - /srv/dev-disk-by-label-dataC/appdata/radarr:/config
+      - /srv/dev-disk-by-label-dataC/plex/videos/movies:/movies #optional
+      - /srv/dev-disk-by-label-dataC/plex/downloads:/downloads #optional
+      - /srv/dev-disk-by-label-dataC/plex:/plex
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+  sonarr:
+    image: ghcr.io/linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=Europe/London
+    volumes:
+      - /srv/dev-disk-by-label-dataC/appdata/sonarr:/config
+      - /srv/dev-disk-by-label-dataC/plex/videos/tv:/tv #optional
+      - /srv/dev-disk-by-label-dataC/plex/downloads:/downloads #optional
+      - /srv/dev-disk-by-label-dataC/plex:/plex
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+  jackett:
+    image: ghcr.io/linuxserver/jackett
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=Europe/London
+    volumes:
+      - /srv/dev-disk-by-label-dataC/appdata/jackett:/config
+      - /srv/dev-disk-by-label-dataC/plex/downloads:/downloads
+    ports:
+      - 9117:9117
+    restart: unless-stopped
+  esphome:
+    image: esphome/esphome
+    container_name: esphome
+    privileged: true
+    ports:
+      - 6052:6052
+    volumes:
+      - /srv/dev-disk-by-label-dataC/appdata/esphome:/config:rw
+      # Use local time for logging timestamps
+      - /etc/localtime:/etc/localtime:ro
+    network_mode: host
+    restart: always
+  unifi-controller:
+    image: ghcr.io/linuxserver/unifi-controller
+    container_name: unifi
+    environment:
+      - PUID=1000
+      - PGID=100
+    volumes:
+      - /srv/dev-disk-by-label-dataC/appdata/unifi:/config
+    ports:
+      - 3478:3478/udp
+      - 10001:10001/udp
+      - 8080:8080
+      - 8443:8443
+      - 1900:1900/udp #optional
+      - 8843:8843 #optional
+      - 8880:8880 #optional
+      - 6789:6789 #optional
+      - 5514:5514/udp #optional
+    restart: unless-stopped
+  mqtt:
+    image: eclipse-mosquitto
+    container_name: mqtt
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=Europe/London
+    volumes:
+      - /srv/dev-disk-by-label-dataC/appdata/mqtt/config:/mosquitto/config
+      - /srv/dev-disk-by-label-dataC/appdata/mqtt/data:/mosquitto/data #optional
+      - /srv/dev-disk-by-label-dataC/appdata/mqtt/log:/mosquitto/log #optional
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 1883:1883
+      - 9001:9001
+    restart: unless-stopped
+volumes:
+  etc_motioneye:
+  var_lib_motioneye:
