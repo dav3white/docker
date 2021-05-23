@@ -9,7 +9,7 @@ services:
       - "8765:8765"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /srv/dev-disk-by-label-dataC/appdata/motion-eye:/etc/motioneye
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/appdata/motion-eye:/etc/motioneye
       - /srv/dev-disk-by-label-CCTV:/var/lib/motioneye
   plex:
     image: ghcr.io/linuxserver/plex
@@ -21,11 +21,11 @@ services:
       - VERSION=docker
       - PLEX_CLAIM= #optional
     volumes:
-      - /srv/dev-disk-by-label-dataC/appdata/plex:/config
-      - /srv/dev-disk-by-label-dataC/plex/videos/tv:/tv
-      - /srv/dev-disk-by-label-dataC/plex/videos/movies:/movies
-      - /srv/dev-disk-by-label-dataC/plex/music/Nicola/Music:/music
-      - /srv/dev-disk-by-label-dataC/plex:/plex
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/appdata/plex:/config
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/plex/videos/tv:/tv
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/plex/videos/movies:/movies
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/plex/music/Nicola/Music:/music
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/plex:/plex
     restart: unless-stopped
   homeassistant:
     image: homeassistant/home-assistant:stable
@@ -35,7 +35,7 @@ services:
       - PUID=1000
       - PGID=100
     volumes:
-      - /srv/dev-disk-by-label-dataC/appdata/ha:/config
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/appdata/ha:/config
       - /etc/localtime:/etc/localtime
     restart: unless-stopped
   transmission:
@@ -46,10 +46,10 @@ services:
       - PGID=100
       - TZ=Europe/London
     volumes:
-      - /srv/dev-disk-by-label-dataC/appdata/transmission:/config
-      - /srv/dev-disk-by-label-dataC/plex/downloads:/downloads
-      - /srv/dev-disk-by-label-dataC/plex/videos:/watch
-      - /srv/dev-disk-by-label-dataC/plex:/plex
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/appdata/transmission:/config
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/plex/downloads:/downloads
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/plex/videos:/watch
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/plex:/plex
     ports:
       - 9091:9091
       - 51413:51413
@@ -63,10 +63,10 @@ services:
       - PGID=100
       - TZ=Europe/London
     volumes:
-      - /srv/dev-disk-by-label-dataC/appdata/radarr:/config
-      - /srv/dev-disk-by-label-dataC/plex/videos/movies:/movies #optional
-      - /srv/dev-disk-by-label-dataC/plex/downloads:/downloads #optional
-      - /srv/dev-disk-by-label-dataC/plex:/plex
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/appdata/radarr:/config
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/plex/videos/movies:/movies #optional
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/plex/downloads:/downloads #optional
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/plex:/plex
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -78,10 +78,10 @@ services:
       - PGID=100
       - TZ=Europe/London
     volumes:
-      - /srv/dev-disk-by-label-dataC/appdata/sonarr:/config
-      - /srv/dev-disk-by-label-dataC/plex/videos/tv:/tv #optional
-      - /srv/dev-disk-by-label-dataC/plex/downloads:/downloads #optional
-      - /srv/dev-disk-by-label-dataC/plex:/plex
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/appdata/sonarr:/config
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/plex/videos/tv:/tv #optional
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/plex/downloads:/downloads #optional
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/plex:/plex
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -93,8 +93,8 @@ services:
       - PGID=100
       - TZ=Europe/London
     volumes:
-      - /srv/dev-disk-by-label-dataC/appdata/jackett:/config
-      - /srv/dev-disk-by-label-dataC/plex/downloads:/downloads
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/appdata/jackett:/config
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/plex/downloads:/downloads
     ports:
       - 9117:9117
     restart: unless-stopped
@@ -105,7 +105,7 @@ services:
     ports:
       - 6052:6052
     volumes:
-      - /srv/dev-disk-by-label-dataC/appdata/esphome:/config:rw
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/appdata/esphome:/config:rw
       # Use local time for logging timestamps
       - /etc/localtime:/etc/localtime:ro
     network_mode: host
@@ -117,7 +117,7 @@ services:
       - PUID=1000
       - PGID=100
     volumes:
-      - /srv/dev-disk-by-label-dataC/appdata/unifi:/config
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/appdata/unifi:/config
     ports:
       - 3478:3478/udp
       - 10001:10001/udp
@@ -137,9 +137,9 @@ services:
       - PGID=100
       - TZ=Europe/London
     volumes:
-      - /srv/dev-disk-by-label-dataC/appdata/mqtt/config:/mosquitto/config
-      - /srv/dev-disk-by-label-dataC/appdata/mqtt/data:/mosquitto/data #optional
-      - /srv/dev-disk-by-label-dataC/appdata/mqtt/log:/mosquitto/log #optional
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/appdata/mqtt/config:/mosquitto/config
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/appdata/mqtt/data:/mosquitto/data #optional
+      - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/appdata/mqtt/log:/mosquitto/log #optional
       - /etc/localtime:/etc/localtime:ro
     ports:
       - 1883:1883
