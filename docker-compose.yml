@@ -10,7 +10,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /srv/d26367ec-a9a6-4d32-94ea-e0a25f32d0d6/appdata/motion-eye:/etc/motioneye
-      - /srv/dev-disk-by-label-CCTV:/var/lib/motioneye
+      - /srv/dev-disk-by-uuid-71c14e59-9ef2-4e3b-aac6-004704079f9b:/var/lib/motioneye
   plex:
     image: ghcr.io/linuxserver/plex
     container_name: plex
