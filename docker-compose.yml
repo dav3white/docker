@@ -9,8 +9,8 @@ services:
       - "8765:8765"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /srv/data/appdata/motion-eye:/etc/motioneye
-      - /srv/cctv:/var/lib/motioneye
+      - /media/data/appdata/motion-eye:/etc/motioneye
+      - /media/cctv:/var/lib/motioneye
   plex:
     image: ghcr.io/linuxserver/plex
     container_name: plex
@@ -21,11 +21,11 @@ services:
       - VERSION=docker
       - PLEX_CLAIM= #optional
     volumes:
-      - /srv/data/appdata/plex:/config
-      - /srv/data/plex/videos/tv:/tv
-      - /srv/data/plex/videos/movies:/movies
-      - /srv/data/plex/music/Nicola/Music:/music
-      - /srv/data/plex:/plex
+      - /media/data/appdata/plex:/config
+      - /media/data/plex/videos/tv:/tv
+      - /media/data/plex/videos/movies:/movies
+      - /media/data/plex/music/Nicola/Music:/music
+      - /media/data/plex:/plex
     restart: unless-stopped
   homeassistant:
     image: homeassistant/home-assistant:stable
@@ -35,7 +35,7 @@ services:
       - PUID=1000
       - PGID=100
     volumes:
-      - /srv/data/appdata/ha:/config
+      - /media/data/appdata/ha:/config
       - /etc/localtime:/etc/localtime
     restart: unless-stopped
   transmission:
@@ -46,10 +46,10 @@ services:
       - PGID=100
       - TZ=Europe/London
     volumes:
-      - /srv/data/appdata/transmission:/config
-      - /srv/data/plex/downloads:/downloads
-      - /srv/data/plex/videos:/watch
-      - /srv/data/plex:/plex
+      - /media/data/appdata/transmission:/config
+      - /media/data/plex/downloads:/downloads
+      - /media/data/plex/videos:/watch
+      - /media/data/plex:/plex
     ports:
       - 9091:9091
       - 51413:51413
@@ -63,10 +63,10 @@ services:
       - PGID=100
       - TZ=Europe/London
     volumes:
-      - /srv/data/appdata/radarr:/config
-      - /srv/data/plex/videos/movies:/movies #optional
-      - /srv/data/plex/downloads:/downloads #optional
-      - /srv/data/plex:/plex
+      - /media/data/appdata/radarr:/config
+      - /media/data/plex/videos/movies:/movies #optional
+      - /media/data/plex/downloads:/downloads #optional
+      - /media/data/plex:/plex
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -78,10 +78,10 @@ services:
       - PGID=100
       - TZ=Europe/London
     volumes:
-      - /srv/data/appdata/sonarr:/config
-      - /srv/data/plex/videos/tv:/tv #optional
-      - /srv/data/plex/downloads:/downloads #optional
-      - /srv/data/plex:/plex
+      - /media/data/appdata/sonarr:/config
+      - /media/data/plex/videos/tv:/tv #optional
+      - /media/data/plex/downloads:/downloads #optional
+      - /media/data/plex:/plex
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -93,8 +93,8 @@ services:
       - PGID=100
       - TZ=Europe/London
     volumes:
-      - /srv/data/appdata/jackett:/config
-      - /srv/data/plex/downloads:/downloads
+      - /media/data/appdata/jackett:/config
+      - /media/data/plex/downloads:/downloads
     ports:
       - 9117:9117
     restart: unless-stopped
@@ -105,7 +105,7 @@ services:
     ports:
       - 6052:6052
     volumes:
-      - /srv/data/appdata/esphome:/config:rw
+      - /media/data/appdata/esphome:/config:rw
       # Use local time for logging timestamps
       - /etc/localtime:/etc/localtime:ro
     network_mode: host
@@ -117,7 +117,7 @@ services:
       - PUID=1000
       - PGID=100
     volumes:
-      - /srv/data/appdata/unifi:/config
+      - /media/data/appdata/unifi:/config
     ports:
       - 3478:3478/udp
       - 10001:10001/udp
@@ -137,9 +137,9 @@ services:
       - PGID=100
       - TZ=Europe/London
     volumes:
-      - /srv/data/appdata/mqtt/config:/mosquitto/config
-      - /srv/data/appdata/mqtt/data:/mosquitto/data #optional
-      - /srv/data/appdata/mqtt/log:/mosquitto/log #optional
+      - /media/data/appdata/mqtt/config:/mosquitto/config
+      - /media/data/appdata/mqtt/data:/mosquitto/data #optional
+      - /media/data/appdata/mqtt/log:/mosquitto/log #optional
       - /etc/localtime:/etc/localtime:ro
     ports:
       - 1883:1883
